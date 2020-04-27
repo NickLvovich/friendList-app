@@ -17,7 +17,7 @@ import {
   Modal,
 } from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
-import {addNewNote, deletenote, fetchNotes, addnote} from '../../redux/actions';
+import {addNewNote, deletenote, fetchNotes, } from '../../redux/actions';
 
 import Header from '../../components/Header';
 
