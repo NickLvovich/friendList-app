@@ -17,7 +17,7 @@ import {
   Modal,
 } from 'react-native-paper';
 import {useSelector, useDispatch} from 'react-redux';
-import {addNewNote, deletenote, fetchNotes, } from '../../redux/actions';
+import {addNewNote, deletenote, fetchNotes} from '../../redux/actions';
 
 import Header from '../../components/Header';
 
@@ -25,8 +25,6 @@ function ViewNotes({navigation}) {
   const [visible, setVisible] = useState(false);
   const noteData = useSelector((state) => state.note.noteData.noteData);
   const dispatch = useDispatch();
-  const addNote = (note) => dispatch(addNewNote(note));
-  const deleteNote = (id) => dispatch(deletenote(id));
   const [formErrorMessage, setFormErrorMessage] = useState(
     'ok, we receive data',
   );
@@ -41,58 +39,64 @@ function ViewNotes({navigation}) {
       });
   }, []);
 
-  const visibleModal = () => {
-    setVisible(!visible);
-  };
-
   return (
     <>
-      <Portal>
-        <Header titleText="Simple Friend list" />
-        <View style={styles.container}>
-          {noteData === undefined ? (
-            <View style={styles.titleContainer}>
-              <ActivityIndicator size="large" color="#60DBC5" />
-            </View>
-          ) : (
-            <FlatList
-              data={noteData}
-              renderItem={({item}) => (
-                <List.Section>
-                  <List.Accordion
-                    title={`${item.name} ${item.lastname}`}
-                    left={(props) => <List.Icon {...props} icon="account" />}>
-                    <List.Item
-                      left={(props) => <List.Icon {...props} icon="phone" />}
-                      title={`+${item.phone}`}
-                    />
-                    <List.Item
-                      left={(props) => <List.Icon {...props} icon="email" />}
-                      title={item.email}
-                    />
-                    <List.Item
-                      left={(props) => <List.Icon {...props} icon="cake" />}
-                      title={item.birthday}
-                    />
-                  </List.Accordion>
-                </List.Section>
-              )}
-              keyExtractor={(item) => item._id}
-            />
-          )}
-          <FAB
-            icon="plus"
-            style={styles.fab}
-            small
-            color={Colors.white}
-            onPress={() =>
-              navigation.navigate('AddNotes', {
-                addNote
-              })
-            }
+      <Header titleText="Simple Friend list" />
+      <View style={styles.container}>
+        {noteData === undefined ? (
+          <View style={styles.titleContainer}>
+            <ActivityIndicator size="large" color="#60DBC5" />
+          </View>
+        ) : (
+          <FlatList
+            data={noteData}
+            renderItem={({item}) => (
+              <List.Section>
+                <List.Accordion
+                  title={`${item.name} ${item.lastname}`}
+                  left={(props) => <List.Icon {...props} icon="account" />}>
+                  <List.Item
+                    left={(props) => <List.Icon {...props} icon="phone" />}
+                    title={`+${item.phone}`}
+                  />
+                  <List.Item
+                    left={(props) => <List.Icon {...props} icon="email" />}
+                    title={item.email}
+                  />
+                  <List.Item
+                    left={(props) => <List.Icon {...props} icon="cake" />}
+                    title={item.birthday}
+                  />
+                </List.Accordion>
+                <View style={styles.inlineBlock}>
+                  <Button
+                    icon="rename-box"
+                    mode="contained"
+                    style={styles.buttonUpdate}
+                    onPress={() => console.log('Pressed')}>
+                    Edit
+                  </Button>
+                  <Button
+                    icon="delete"
+                    mode="contained"
+                    style={styles.buttonDelete}
+                    onPress={() => console.log('Pressed')}>
+                    Delete
+                  </Button>
+                </View>
+              </List.Section>
+            )}
+            keyExtractor={(item) => item._id.toString()}
           />
-        </View>
-      </Portal>
+        )}
+        <FAB
+          icon="plus"
+          style={styles.fab}
+          small
+          color={Colors.white}
+          onPress={() => navigation.navigate('AddNotes')}
+        />
+      </View>
     </>
   );
 }
@@ -125,6 +129,21 @@ const styles = StyleSheet.create({
   mainBlock: {
     flex: 1,
   },
+  buttonDelete: {
+    backgroundColor: 'rgb(219, 96, 96)',
+    width: '33%',
+    margin: 10
+  },
+  buttonUpdate: {
+    backgroundColor: 'rgb(219, 217, 96)',
+    width: '33%',
+    margin: 10
+  },
+  inlineBlock:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
 });
 
 export default ViewNotes;

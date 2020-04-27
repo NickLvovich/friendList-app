@@ -10,7 +10,7 @@ import {submitNote, fetchNotes} from '../../redux/actions';
 
 import Header from '../../components/Header';
 
-function AddNote({navigation}) {
+function AddNotes({navigation}) {
   const [formErrorMessage, setFormErrorMessage] = useState(
     'ok, we receive data',
   );
@@ -204,4 +204,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AddNote;
+export default AddNotes;
