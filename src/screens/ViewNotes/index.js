@@ -1,28 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {
-  StyleSheet,
-  View,
-  FlatList,
-  ActivityIndicator,
-  SafeAreaView,
-} from 'react-native';
-import {
-  Text,
-  FAB,
-  List,
-  Colors,
-  Provider,
-  Button,
-  Portal,
-  Modal,
-} from 'react-native-paper';
+import {StyleSheet, View, FlatList, ActivityIndicator} from 'react-native';
+import {FAB, List, Colors} from 'react-native-paper';
+
 import {useSelector, useDispatch} from 'react-redux';
-import {addNewNote, deletenote, fetchNotes} from '../../redux/actions';
+import {fetchNotes} from '../../redux/actions';
 
 import Header from '../../components/Header';
+import Button from '../../components/Button';
+import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function ViewNotes({navigation}) {
-  const [visible, setVisible] = useState(false);
   const noteData = useSelector((state) => state.note.noteData.noteData);
   const dispatch = useDispatch();
   const [formErrorMessage, setFormErrorMessage] = useState(
@@ -66,23 +53,16 @@ function ViewNotes({navigation}) {
                   <List.Item
                     left={(props) => <List.Icon {...props} icon="cake" />}
                     title={item.birthday}
+                    description={item._id}
                   />
                 </List.Accordion>
                 <View style={styles.inlineBlock}>
                   <Button
-                    icon="rename-box"
-                    mode="contained"
-                    style={styles.buttonUpdate}
-                    onPress={() => console.log('Pressed')}>
-                    Edit
-                  </Button>
-                  <Button
-                    icon="delete"
-                    mode="contained"
-                    style={styles.buttonDelete}
-                    onPress={() => console.log('Pressed')}>
-                    Delete
-                  </Button>
+                    item={item}
+                    navigateTo={() => navigation.navigate('UpdateScreen')}
+                  />
+
+                  <Button item={item} Delete />
                 </View>
               </List.Section>
             )}
@@ -129,21 +109,11 @@ const styles = StyleSheet.create({
   mainBlock: {
     flex: 1,
   },
-  buttonDelete: {
-    backgroundColor: 'rgb(219, 96, 96)',
-    width: '33%',
-    margin: 10
-  },
-  buttonUpdate: {
-    backgroundColor: 'rgb(219, 217, 96)',
-    width: '33%',
-    margin: 10
-  },
-  inlineBlock:{
+  inlineBlock: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-  }
+  },
 });
 
 export default ViewNotes;

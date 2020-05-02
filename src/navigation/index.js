@@ -2,7 +2,7 @@ import { createAppContainer } from 'react-navigation'
 import { createStackNavigator } from 'react-navigation-stack'
 import ViewNotes from '../screens/ViewNotes'
 import AddNotes from '../screens/AddNotes'
-import Ban from '../screens/Ban'
+import UpdateScreen from '../screens/UpdateScreen'
 
 const StackNavigator = createStackNavigator(
   {
@@ -12,8 +12,8 @@ const StackNavigator = createStackNavigator(
     AddNotes: {
       screen: AddNotes
     },
-    Ban: {
-      screen: Ban
+    UpdateScreen: {
+      screen: UpdateScreen
     }
   },
   {

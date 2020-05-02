@@ -26,7 +26,7 @@ export function submitNote(dataToSubmit) {
   const request = axios
     .post(
       `https://whispering-forest-65400.herokuapp.com/api/notes/add_note`,
-      dataToSubmit
+      dataToSubmit,
     )
     .then((response) => response.data);
 
@@ -37,8 +37,26 @@ export function submitNote(dataToSubmit) {
 }
 export function deleteNote(dataToSubmit) {
   const request = axios
-    .post(`${NOTE_SERVER}/delete`, dataToSubmit)
-    .then((response) => response.data);
+    .post(
+      `https://whispering-forest-65400.herokuapp.com/api/notes/delete`,
+      dataToSubmit,
+    )
+    .then((response) => response.data)
+    .catch((err) => console.log('err', err));
+
+  return {
+    type: DELETE_NOTE,
+    payload: request,
+  };
+}
+export function updateNote(dataToSubmit) {
+  const request = axios
+    .post(
+      `https://whispering-forest-65400.herokuapp.com/api/notes/update`,
+      dataToSubmit,
+    )
+    .then((response) => response.data)
+    .catch((err) => console.log('err', err));
 
   return {
     type: DELETE_NOTE,
