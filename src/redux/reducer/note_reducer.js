@@ -7,6 +7,7 @@ const initialState = {
 };
 
 function Reducer(state = initialState, action) {
+  console.log('state', state)
   switch (action.type) {
     case NOTE_LIST:
       return {...state, noteData: action.payload};

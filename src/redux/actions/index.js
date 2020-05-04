@@ -50,6 +50,7 @@ export function deleteNote(dataToSubmit) {
   };
 }
 export function updateNote(dataToSubmit) {
+  console.log('dataToSubmit', dataToSubmit)
   const request = axios
     .post(
       `https://whispering-forest-65400.herokuapp.com/api/notes/update`,

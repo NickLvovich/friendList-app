@@ -59,7 +59,9 @@ function ViewNotes({navigation}) {
                 <View style={styles.inlineBlock}>
                   <Button
                     item={item}
-                    navigateTo={() => navigation.navigate('UpdateScreen')}
+                    navigateTo={() => navigation.navigate('UpdateScreen',  {
+                      _id: item._id
+                    })}
                   />
 
                   <Button item={item} Delete />

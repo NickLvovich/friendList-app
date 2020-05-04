@@ -11,6 +11,7 @@ import {updateNote, fetchNotes} from '../../redux/actions';
 import Header from '../../components/Header';
 
 function UpdateScreen({navigation}) {
+  const _id = navigation.state.params._id
   const [formErrorMessage, setFormErrorMessage] = useState(
     'ok, we receive data',
   );
@@ -55,6 +56,7 @@ function UpdateScreen({navigation}) {
           onSubmit={(values, {setSubmitting}) => {
             setTimeout(() => {
               let dataToSubmit = {
+                _id: _id,
                 name: values.name,
                 lastname: values.lastname,
                 phone: values.phone,
