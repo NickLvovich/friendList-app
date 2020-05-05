@@ -1,5 +1,11 @@
 import React, {useState, useEffect} from 'react';
-import {StyleSheet, View, FlatList, ActivityIndicator} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  FlatList,
+  ActivityIndicator,
+  TouchableOpacity,
+} from 'react-native';
 import {FAB, List, Colors} from 'react-native-paper';
 
 import {useSelector, useDispatch} from 'react-redux';
@@ -7,11 +13,12 @@ import {fetchNotes} from '../../redux/actions';
 
 import Header from '../../components/Header';
 import Button from '../../components/Button';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 
 function ViewNotes({navigation}) {
   const noteData = useSelector((state) => state.note.noteData.noteData);
   const dispatch = useDispatch();
+  const [isLoadMore, setIsLoadMore] = useEffect(true)
+
   const [formErrorMessage, setFormErrorMessage] = useState(
     'ok, we receive data',
   );
@@ -26,6 +33,19 @@ function ViewNotes({navigation}) {
       });
   }, []);
 
+  const footerList = () => {
+    return (
+      <View style={styles.footer}>
+        <TouchableOpacity activeOpacity={0.9} style={styles.loadMore}>
+          <Text style={styles.textBtn}>Load More</Text>
+          {isLoadMore ? (
+            <ActivityIndicator color="whit" size="large" animating />
+          ) : null}
+        </TouchableOpacity>
+      </View>
+    );
+  };
+
   return (
     <>
       <Header titleText="Simple Friend list" />
@@ -37,6 +57,7 @@ function ViewNotes({navigation}) {
         ) : (
           <FlatList
             data={noteData}
+            ListFooterComponent={footerList}
             renderItem={({item}) => (
               <List.Section>
                 <List.Accordion
@@ -59,9 +80,11 @@ function ViewNotes({navigation}) {
                 <View style={styles.inlineBlock}>
                   <Button
                     item={item}
-                    navigateTo={() => navigation.navigate('UpdateScreen',  {
-                      _id: item._id
-                    })}
+                    navigateTo={() =>
+                      navigation.navigate('UpdateScreen', {
+                        _id: item._id,
+                      })
+                    }
                   />
 
                   <Button item={item} Delete />
@@ -115,6 +138,23 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
+  },
+  footer: {
+    padding: 5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  loadMore: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    padding: 10,
+    backgroundColor: 'grey',
+  },
+  textBtn: {
+    fontSize: 15,
+    marginRight: 5,
+    color: 'white',
   },
 });
 
