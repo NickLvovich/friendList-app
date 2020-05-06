@@ -10,7 +10,6 @@ function ButtonItem({Delete, item, navigateTo}) {
   const dispatch = useDispatch();
 
   const id = item._id.toString();
-  console.log('id', id);
   return (
     <>
       {!Delete ? (

@@ -2,9 +2,12 @@ import axios from 'axios';
 import {ADD_NOTE, DELETE_NOTE, NOTE_LIST} from '../types';
 import {NOTE_SERVER} from '../config';
 
-export function fetchNotes() {
-  const request = axios
-    .get('https://whispering-forest-65400.herokuapp.com/api/notes/list')
+export async function fetchNotes(size) {
+  console.log('size', size);
+  const request = await axios
+    .get(
+      `https://whispering-forest-65400.herokuapp.com/api/notes/list/?pageNo=${1}&size=${size}`,
+    )
     .then((response) => response.data)
     .catch((err) => console.log('err', err));
 
@@ -14,16 +17,8 @@ export function fetchNotes() {
   };
 }
 
-export function addNewNote(note) {
-  return {
-    type: ADD_NOTE,
-    id: noteID++,
-    note,
-  };
-}
-
-export function submitNote(dataToSubmit) {
-  const request = axios
+export async function submitNote(dataToSubmit) {
+  const request = await axios
     .post(
       `https://whispering-forest-65400.herokuapp.com/api/notes/add_note`,
       dataToSubmit,
@@ -35,8 +30,8 @@ export function submitNote(dataToSubmit) {
     payload: request,
   };
 }
-export function deleteNote(dataToSubmit) {
-  const request = axios
+export async function deleteNote(dataToSubmit) {
+  const request = await axios
     .post(
       `https://whispering-forest-65400.herokuapp.com/api/notes/delete`,
       dataToSubmit,
@@ -49,9 +44,9 @@ export function deleteNote(dataToSubmit) {
     payload: request,
   };
 }
-export function updateNote(dataToSubmit) {
-  console.log('dataToSubmit', dataToSubmit)
-  const request = axios
+export async function updateNote(dataToSubmit) {
+  console.log('dataToSubmit', dataToSubmit);
+  const request = await axios
     .post(
       `https://whispering-forest-65400.herokuapp.com/api/notes/update`,
       dataToSubmit,

@@ -5,6 +5,7 @@ import {
   FlatList,
   ActivityIndicator,
   TouchableOpacity,
+  Text,
 } from 'react-native';
 import {FAB, List, Colors} from 'react-native-paper';
 
@@ -17,13 +18,13 @@ import Button from '../../components/Button';
 function ViewNotes({navigation}) {
   const noteData = useSelector((state) => state.note.noteData.noteData);
   const dispatch = useDispatch();
-  const [isLoadMore, setIsLoadMore] = useEffect(true)
-
+  const [isLoadMore, setIsLoadMore] = useState(false);
+  const [size, setSize] = useState(1);
   const [formErrorMessage, setFormErrorMessage] = useState(
     'ok, we receive data',
   );
-  useEffect(() => {
-    dispatch(fetchNotes())
+  const getData = (size) => {
+    dispatch(fetchNotes(size))
       .then((response) => response.data)
       .catch((err) => {
         setFormErrorMessage('There is no data, or problems with receiving it');
@@ -31,15 +32,24 @@ function ViewNotes({navigation}) {
           setFormErrorMessage('');
         }, 1000);
       });
-  }, []);
+  };
+
+
+  useEffect(() => {
+    console.log('size', size)
+      getData(size);
+  }, [size]);
 
   const footerList = () => {
-    return (
+    return size > noteData.length ? null : (
       <View style={styles.footer}>
-        <TouchableOpacity activeOpacity={0.9} style={styles.loadMore}>
+        <TouchableOpacity
+          activeOpacity={0.9}
+          style={styles.loadMore}
+          onPress={() =>  setSize(size + 1)}>
           <Text style={styles.textBtn}>Load More</Text>
           {isLoadMore ? (
-            <ActivityIndicator color="whit" size="large" animating />
+            <ActivityIndicator color="white" size="large" animating />
           ) : null}
         </TouchableOpacity>
       </View>
@@ -74,7 +84,6 @@ function ViewNotes({navigation}) {
                   <List.Item
                     left={(props) => <List.Icon {...props} icon="cake" />}
                     title={item.birthday}
-                    description={item._id}
                   />
                 </List.Accordion>
                 <View style={styles.inlineBlock}>
